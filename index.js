@@ -5,8 +5,8 @@ const app = express()
 const connection = mysql.createConnection({
     host:'localhost',
     user:'root',
-    password:'12345',
-    database:'testDB'
+    password:'password',
+    database:'busbookingdb'
 })
 
 connection.connect((err) => {
@@ -17,22 +17,32 @@ connection.connect((err) => {
 
     console.log('Database connection has been created')
 
-    const creationQuery = `create table students(
+    const createUsersTable = `create table usersTable(
         id int auto_increment primary key,
-        name varchar(20),
-        email varchar(20)
-
+        name varchar(255),
+        email varchar(255)
     )`
 
-    connection.execute(creationQuery, (err) => {
-        if(err){
-            console.log(err)
-            connection.end()
-            return
-        }
+    const createBusesTable = ` create table busesTable(
+        id int auto_increment primary key,
+        busNumber varchar(255),
+        totalSeats int, 
+        availableSeats int
+    )`
 
-        console.log('Table is created')
-    })
+    const createBookingTable = `create table bookingTable (
+        id int auto_increment primary key,
+        seatNumber int
+    )`
+
+    const createPaymentTable = `create table paymentTable(
+        id int auto_increment primary key,
+        amountPaid decimal(10,2),
+        paymentStatus boolean
+    )`
+    
+   
+    
 })
 
 app.get('/', (req, res) => {
