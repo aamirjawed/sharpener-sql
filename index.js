@@ -1,5 +1,6 @@
 const express = require("express")
-const db = require("./utils/db-connection");
+
+const db= require('./utils/db-connection')
 const studentsRoutes  = require('./routes/studentsRoutes')
 const busUserRoutes  = require('./routes/busUserRoutes')
 const app = express()
@@ -12,11 +13,17 @@ app.get('/', (req, res) => {
 
 app.use('/students', studentsRoutes)
 
+
+
 // Bus user
 
 app.use('/bus', busUserRoutes)
 
-
-app.listen(3000, (err) => {
+db.sync({force:true}).then(() => {
+    app.listen(3000, (err) => {
     console.log("Server is running of 3000")
 })
+}).catch((err) => {
+    console.log(err)
+})
+
